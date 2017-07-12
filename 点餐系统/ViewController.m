@@ -46,23 +46,14 @@
     for (int i = 0; i < self.foods.count; i++) {
         NSUInteger maxNum = [self.foods[i] count];
         u_int32_t randomNum = arc4random_uniform((int)maxNum);
-        [self.pickerView selectRow:randomNum inComponent:i animated:YES];
-        NSString *selFood = self.foods[i][randomNum];
-        switch (i) {
-            case 0:
-                self.fruitLabel.text = selFood;
-                break;
-            case 1:
-                self.stapleFoodLabel.text = selFood;
-                break;
-            case 2:
-                self.wineLabel.text = selFood;
-                break;
-                
-            default:
-                break;
+        //获取当前选中的行号
+        NSInteger selfRowNum = [self.pickerView selectedRowInComponent:i];
+        while (randomNum == selfRowNum) {
+            randomNum = arc4random_uniform((int) maxNum);
         }
-
+        //让pickerView 选中数据
+        [self.pickerView selectRow:randomNum inComponent:i animated:YES];
+        [self pickerView:self.pickerView didSelectRow:randomNum inComponent:i];
     }
 }
 
